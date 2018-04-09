@@ -60,7 +60,7 @@
 
 |字符|描述|样例|
 |--|--|--|
-|^|匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配|`^a[b|c]`匹配`ab123ac`结果是`ab`|
+|^|匹配输入字符串开始的位置。如果设置了 RegExp 对象的 Multiline 属性，^ 还会与 \n 或 \r 之后的位置匹配|`^a[b\|c]`匹配`ab123ac`结果是`ab`|
 |$|匹配输入字符串结尾的位置。如果设置了 RegExp 对象的 Multiline 属性，$ 还会与 \n 或 \r 之前的位置匹配|`[1-2]abc$`匹配`1abc2222abc`结果是`1abc2222abc`|
 |\b|匹配一个字边界，即字与空格间的位置|`\bchy[a\|b\|c]`匹配`chya is a boy,a boy named chyb,another boy named cchyc`的结果是`chya`、`chyb`|
 |\B|非字边界匹配|`\Ｂchy[a\|b\|c]`匹配`chya is a boy,a boy named chyb,another boy named cchyc`的结果是`chyc`|
