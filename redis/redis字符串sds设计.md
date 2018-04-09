@@ -12,7 +12,7 @@ struct sdshdr{
 ```
 ****
 示例  
-![image.png](../image/redis/sds.png)
+![sds.png](../image/redis/sds.png)
 * free属性值为0，表示sds没有分配任何为使用空间
 * len属性为5，表示这个sds保存了一个5个字节长的字符串
 * buf属性表示一个char类型的数组，前五个字节保存"Redis"，而最后一个字节保存空字符'\0'
