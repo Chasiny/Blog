@@ -3,7 +3,7 @@
 ## 申请测试公众号
 
 * 首先开发者可以在微信测试平台申请测试公众号[微信测试号申请](http://mp.weixin.qq.com/debug/cgi-bin/sandbox?t=sandbox/login)
-进入如下的界面![](../image/wechat/wechat01.png)
+进入如下的界面![](../../image/wechat/wechat01.png)
 > appid相当于公众号的为唯一标识，appsecret相当于公众号的密码，用于获取access_token等（access_token可以用于推送模板消息等）
 * 得到服务号后要部署到服务器上需要验证服务器验证（接口配置信息的URL，其中URL将作为后期微信公众号事件推送的地址，包括用户点击公众号按钮事件，获取用户地理位置事件，都是由这个接口接收微信通知的），验证规定使用80或443端口
 * 如果是本地主机测试没有域名可以使用[natapp](https://natapp.cn/)进行内网映射
@@ -106,7 +106,7 @@ func main() {
 
 授权登录流程：
 
-![wechat02.png](../image/wechat/wechat02.png)
+![wechat02.png](../../image/wechat/wechat02.png)
 
 开发者开发时最好先判断用户信息是否过期，过期再重定向用户至微信授权登录
 授权登录go演示代码
