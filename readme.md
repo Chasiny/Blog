@@ -1,6 +1,6 @@
 # 个人博客
-* [go](./go)
-* [redis](./redis)
-* [regexp](./regexp)
-* [ubuntu](./ubuntu)
-* [wechat](./wechat)
+* [go](./blog/go)
+* [redis](./blog/redis)
+* [regexp](./blog/regexp)
+* [ubuntu](./blog/ubuntu)
+* [wechat](./blog/wechat)
