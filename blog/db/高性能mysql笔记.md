@@ -1,4 +1,5 @@
 ## mysql逻辑架构
+![db01.png](../../image/db/db01.png)
 
 ## 锁粒度
 
