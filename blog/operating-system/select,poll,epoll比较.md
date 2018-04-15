@@ -23,7 +23,5 @@ linux下，可以通过设置socket使其变为non-blocking。当对一个non-bl
 
 
 
-
-
 参考
 [Linux IO模式及 select、poll、epoll详解](https://segmentfault.com/a/1190000003063859)
