@@ -53,6 +53,22 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
 * 同时每次调用select都需要在内核遍历传递进来的所有fd
 * select支持的文件描述符数量太小，默认是1024
 
+## poll
+poll的实现跟select非常相似，只是描述fd集合的方式不同，poll使用pollfd结构而不是select的fd_set结构，其他都差不多。
+```c++
+int poll (struct pollfd *fds, unsigned int nfds, int timeout);
+```
+```c++
+struct pollfd {
+    int fd; /* file descriptor */
+    short events; /* requested events to watch */
+    short revents; /* returned events witnessed */
+};
+```
+* pollfd结构包含了要监视的event和发生的event，不再使用select值传递的方式。同时，pollfd没有最大数量限制（但是数量过大后性能也是会下降）。和select一样，poll返回后，需要轮询pollfd来获取就绪的描述符。
+
+## epoll
+
 
 
 参考
