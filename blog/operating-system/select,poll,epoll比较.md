@@ -29,7 +29,7 @@ linux下，可以通过设置socket使其变为non-blocking。当对一个non-bl
 
 ## 异步I/O(asynchronous IO)
 linux下使用asynchronous IO其实使用得很少  
-![异步I/O](../../image/operating-system/operating-system04.png)
+![异步I/O](../../image/operating-system/operating-system04.png)  
 当用户进程发起read操作后，立刻就可以开始去做其他的事。而另一方面，从kernel的角度，当它收到一个asynchronous read后，它会立刻返回，所以不会对用户进程产生任何block。然后，kernel会等待数据准备完成，然后将数据拷贝到用户内存，当这一切都完成之后，kernel会给用户进程发送一个signal，告诉它read操作完成了。
 
 * 阻塞I/O，非阻塞I/O，I/O多路复用属于同步IO
@@ -46,7 +46,8 @@ int select (int n, fd_set *readfds, fd_set *writefds, fd_set *exceptfds, struct 
 4. __pollwait的主要工作就是把current进程挂到设备的等待队列中，不同的设备有不同的等待队列。在设备收到一条消息（网络设备）或填写完文件数据（磁盘设备）后，会唤醒设备等待队列上睡眠的进程，这时current便被唤醒了。
 5. poll方法返回时会返回一个描述读写操作是否就绪的mask掩码，根据这个mask掩码给fd_set赋值。
 6. 如果遍历完所有的fd，还没有返回一个可读写的mask掩码，则会调用schedule_timeout使调用select的进程进入睡眠。当设备驱动发生自身资源可读写后，会唤醒其等待队列上睡眠的进程。如果超过一定的超时时间，还是没人唤醒，则调用select的进程会重新被唤醒获得cpu，进而重新遍历fd，判断有没有就绪的fd。
-7. 把fd_set从内核空间拷贝到用户空间
+7. 把fd_set从内核空间拷贝到用户空间  
+
 缺点
 * 每次调用select，都需要把fd集合从用户态拷贝到内核态，当fd很多时开销会很大
 * 同时每次调用select都需要在内核遍历传递进来的所有fd
