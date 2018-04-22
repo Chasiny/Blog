@@ -1,5 +1,11 @@
 # go channel 详解
 
+# channel分类
+go的channel分为有缓冲channel和无缓冲channel，如下：
+```go
+	unBufferedChan := make(chan int)		//无缓冲通道
+	bufferedChan := make(chan int, 10)		//有缓冲通道
+```
 # 用法
 ## 发送数据
 先看一个简单的例子，这是个无缓冲的通道
