@@ -70,7 +70,6 @@ struct pollfd {
 ## epoll
 
 
-
 参考
 * [Linux IO模式及 select、poll、epoll详解](https://segmentfault.com/a/1190000003063859)  
 * [select、poll、epoll之间的区别总结整理](http://www.cnblogs.com/Anker/p/3265058.html)
