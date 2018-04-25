@@ -145,3 +145,57 @@ child goroutine  1  exit
 child goroutine  5  exit
 main goroutine exit
 ```
+
+## 生产者消费者
+channel也可以用于生产者消费者模型，例如一个协程用于产生数据，另一个协程用于消费数据，消费者不需要等生产者全部生产完数据再消费，例如
+```go
+package main
+
+import (
+	"fmt"
+	"time"
+)
+
+func Productor() <-chan int {
+	dataChan := make(chan int, 5)
+	go func() {
+		for i := 10; i < 20; i++ {
+			fmt.Println("Productor create data : ", i)
+			dataChan <- i
+			time.Sleep(time.Microsecond)
+		}
+	}()
+	return dataChan
+}
+
+func main() {
+	productor := Productor()
+	for i := 0; i < 10; i++ {
+		data := <-productor
+		fmt.Println("Comsumer receive data : ", data)
+	}
+}
+```
+结果如下
+```
+Productor create data :  10
+Comsumer receive data :  10
+Productor create data :  11
+Comsumer receive data :  11
+Productor create data :  12
+Comsumer receive data :  12
+Productor create data :  13
+Comsumer receive data :  13
+Productor create data :  14
+Comsumer receive data :  14
+Productor create data :  15
+Comsumer receive data :  15
+Productor create data :  16
+Comsumer receive data :  16
+Productor create data :  17
+Comsumer receive data :  17
+Productor create data :  18
+Comsumer receive data :  18
+Productor create data :  19
+Comsumer receive data :  19
+```
