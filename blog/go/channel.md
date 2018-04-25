@@ -172,30 +172,30 @@ func main() {
 	productor := Productor()
 	for i := 0; i < 10; i++ {
 		data := <-productor
-		fmt.Println("Comsumer receive data : ", data)
+		fmt.Println("Consumer receive data : ", data)
 	}
 }
 ```
 结果如下
 ```
 Productor create data :  10
-Comsumer receive data :  10
+Consumer receive data :  10
 Productor create data :  11
-Comsumer receive data :  11
+Consumer receive data :  11
 Productor create data :  12
-Comsumer receive data :  12
+Consumer receive data :  12
 Productor create data :  13
-Comsumer receive data :  13
+Consumer receive data :  13
 Productor create data :  14
-Comsumer receive data :  14
+Consumer receive data :  14
 Productor create data :  15
-Comsumer receive data :  15
+Consumer receive data :  15
 Productor create data :  16
-Comsumer receive data :  16
+Consumer receive data :  16
 Productor create data :  17
-Comsumer receive data :  17
+Consumer receive data :  17
 Productor create data :  18
-Comsumer receive data :  18
+Consumer receive data :  18
 Productor create data :  19
-Comsumer receive data :  19
+Consumer receive data :  19
 ```
