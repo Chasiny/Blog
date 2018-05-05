@@ -152,7 +152,7 @@ func main() {
 * 要注意不是所有的值都深度相等于自己，例如函数，以及嵌套包含这些值的结构体，数组等
 
 ---
-* go如何避免递归循环判断结构体嵌套自身：通过标记visit访问数组  
+* go如何避免递归循环判断结构体嵌套自身：通过使用一个visit(类型为map[visit]bool)标记访问  
 在reflect/deepequal.go中的deepValueEqual函数中有这么一段代码
 ```go
 if v1.CanAddr() && v2.CanAddr() && hard(v1.Kind()) {
