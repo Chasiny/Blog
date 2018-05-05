@@ -151,5 +151,31 @@ func main() {
 * 其他类型的值（numbers, bools, strings, channels）如果满足go的==操作符，则是深度相等的
 * 要注意不是所有的值都深度相等于自己，例如函数，以及嵌套包含这些值的结构体，数组等
 
-### todo
-结构体嵌套自身怎么递归判断
+---
+* go如何避免递归循环判断结构体嵌套自身：通过标记visit访问数组
+在reflect/deepequal.go中的deepValueEqual函数中有这么一段代码
+```go
+if v1.CanAddr() && v2.CanAddr() && hard(v1.Kind()) {
+		addr1 := unsafe.Pointer(v1.UnsafeAddr())
+		addr2 := unsafe.Pointer(v2.UnsafeAddr())
+		//对指针进行比较排序，减少重复比较
+		if uintptr(addr1) > uintptr(addr2) {
+			// Canonicalize order to reduce number of entries in visited.
+			// Assumes non-moving garbage collector.
+			addr1, addr2 = addr2, addr1
+		}
+
+		// Short circuit if references are already seen.
+		typ := v1.Type()
+		v := visit{addr1, addr2, typ}
+
+		//为已访问的话返回true
+		if visited[v] {
+			return true
+		}
+
+		//标记两个比较的变量为已访问
+		// Remember for later.
+		visited[v] = true
+	}
+```
