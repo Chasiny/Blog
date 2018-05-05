@@ -78,9 +78,9 @@ func main() {
 ### 6.go中map的比较需要同时满足以下几个
 * 1.两个map都为nil或者都不为nil，并且长度要相等  
 they are both nil or both non-nil, they have the same length
-* 2.相同的map对象或者所有key要对应相同
+* 2.相同的map对象或者所有key要对应相同  
 either they are the same map object or their corresponding keys
-* 3.map对应的value也要深度相等
+* 3.map对应的value也要深度相等  
 map to deeply equal values
 
 ```go
@@ -99,9 +99,9 @@ func main() {
 >对应输出true
 
 ### 7.指针，满足以下其一即是深度相等
-* 1.两个指针满足go的==操作符
+* 1.两个指针满足go的==操作符  
 Pointer values are deeply equal if they are equal using Go's == operator
-* 2.两个指针指向的值是深度相等的
+* 2.两个指针指向的值是深度相等的  
 
 ```go
 func main() {
@@ -123,7 +123,7 @@ func main() {
 ### 8.切片，需要同时满足以下几点才是深度相等
 * 1.两个切片都为nil或者都不为nil，并且长度要相等  
 they are both nil or both non-nil, they have the same length
-* 2.两个切片底层数据指向的第一个位置要相同或者底层的元素要深度相等
+* 2.两个切片底层数据指向的第一个位置要相同或者底层的元素要深度相等  
 either they point to the same initial entry of the same underlying array (that is, &x[0] == &y[0]) or their corresponding elements (up to length) are deeply equal.
 ```go
 func main() {
@@ -152,7 +152,7 @@ func main() {
 * 要注意不是所有的值都深度相等于自己，例如函数，以及嵌套包含这些值的结构体，数组等
 
 ---
-* go如何避免递归循环判断结构体嵌套自身：通过标记visit访问数组
+* go如何避免递归循环判断结构体嵌套自身：通过标记visit访问数组  
 在reflect/deepequal.go中的deepValueEqual函数中有这么一段代码
 ```go
 if v1.CanAddr() && v2.CanAddr() && hard(v1.Kind()) {
