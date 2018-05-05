@@ -1,0 +1,88 @@
+# top命令
+
+top命令是linux常用的性能分析工具，可以实时查看系统各个进程的资源占用。
+
+## 命令参数
+
+* -b 批处理
+* -c 显示完整的命令
+* -s 保密模式
+* -S 累积模式
+* -i <时间> 设置时间间隔
+* -u <用户名> 指定用户名
+* -p <进程号> 指定进程
+* -n <次数> 循环显示的次数
+
+## 显示进程信息
+* 命令：`top`
+```
+top - 10:06:33 up 17:32,  1 user,  load average: 0.34, 0.32, 0.25
+Tasks: 286 total,   1 running, 284 sleeping,   0 stopped,   0 zombie
+%Cpu(s):  0.1 us,  0.1 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+KiB Mem : 12178548 total,  4542188 free,  4274728 used,  3361632 buff/cache
+KiB Swap:        0 total,        0 free,        0 used.  7207588 avail Mem 
+
+  PID USER      PR  NI    VIRT    RES    SHR S  %CPU %MEM     TIME+ COMMAND                                            
+23814 chasiny   20   0   43696   4120   3356 R   0.7  0.0   0:00.03 top                                                
+   14 root      rt   0       0      0      0 S   0.3  0.0   0:00.19 watchdog/1                                         
+  239 root       0 -20       0      0      0 S   0.3  0.0   0:00.85 kworker/6:1H                                       
+ 1697 chasiny   20   0 1586412 198348  77576 S   0.3  1.6   7:56.73 compiz                                             
+ 2573 chasiny   20   0  937048  47880  36620 S   0.3  0.4   0:59.88 code                                               
+ 3012 chasiny   20   0 1258828 180040  82276 S   0.3  1.5   0:39.67 chrome                                             
+ 3239 chasiny   20   0  620764  50508  34848 S   0.3  0.4   0:26.99 gnome-terminal-                                    
+ 3453 chasiny   20   0 1398920 302420  92524 S   0.3  2.5   2:27.12 chrome                                             
+10658 chasiny   20   0 6745748 663344  42288 S   0.3  5.4   7:02.44 java                                               
+12123 chasiny   20   0 1370756 276204  91592 S   0.3  2.3   1:23.20 chrome                                             
+22083 root      20   0       0      0      0 S   0.3  0.0   0:02.42 kworker/u16:3                                      
+    1 root      20   0  185304   5988   4052 S   0.0  0.0   0:01.51 systemd                                            
+    2 root      20   0       0      0      0 S   0.0  0.0   0:00.01 kthreadd                                           
+    4 root       0 -20       0      0      0 S   0.0  0.0   0:00.00 kworker/0:0H                                       
+```
+
+top命令主要有两部分信息：
+
+### 统计信息区
+#### 第一行，任务队列信息
+* 10:06:33  表示系统当前时间
+* up 17:32  表示系统已经运行了17个小时32分钟
+* 1 user    表示当前有一个用户登录系统
+* load average: 0.34, 0.32, 0.25    表示系统1分钟，5分钟，10分钟的负载情况
+
+#### 第二行，进程信息
+* 286 total     表示系统当前总共有286个进程
+* 1 running     表示1个进程在运行
+* 284 sleeping  表示284个进程在休眠
+* 0 stopped     表示有0个stopped状态的进程
+* 0 zombie      表示有0个僵尸进程
+
+#### 第三行，CPU状态信息
+* 0.1 us    表示用户空间占cpu的百分比
+* 0.1 sy    表示内核空间占cpu的百分比
+* 0.0 ni    表示改变过优先级的进程占用CPU的百分比
+* 99.7 id   表示空闲CPU百分比
+* 0.0 wa    表示IO等待占用CPU的百分比
+* 0.0 hi    表示硬中断（Hardware IRQ）占用CPU的百分比
+* 0.0 si    表示软中断（Software Interrupts）占用CPU的百分比
+* 0.0 st    表示cpu分配给运行在其它虚拟机上的任务的实际CPU时间的百分比
+
+> 低 st 值意味着你的应用程序在目前的虚拟机上运作良好。因为你的虚拟机不会经常地为了 CPU 时间与其它虚拟机激烈竞争，你的虚拟机会更快地响应。这一点也暗示了，你的主机供应商没有过量地出售虚拟服务，绝对是一件好事情。
+
+#### 第四行，内存状态
+* 12178548 total        物理内存总量
+* 4542188 free          使用中的内存总量
+* 4274728 used          空闲内存总量
+* 3361632 buff/cache    缓存的内存量
+
+#### 第四行，swap交换分区信息（由于我的系统没有设置交换分区，所以为0）
+* 0 total           交换区总量
+* 0 free            使用的交换区总量
+* 0 used            空闲交换区总量
+* 7207588 avail     缓冲的交换区总量
+
+### 各进程的状态监控
+
+
+---
+参考
+* [每天一个linux命令（44）：top命令](http://www.cnblogs.com/peida/archive/2012/12/24/2831353.html)
+* [有关top中的%hi %si %st](http://www.91linux.com/html/article/cmd/top/20090417/16525.html)
