@@ -9,7 +9,7 @@ int main() {
 
     srand(time(NULL));
     for(int i=-100;i<0;i++){
-        p.Insert(rand()%1000000-500);
+        p.Insert(rand()%50000-50000/2);
     }
 
     p.ToDot("tree.dot");
