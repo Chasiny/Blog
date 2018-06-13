@@ -4,11 +4,70 @@
 go的channel分为有缓冲channel和无缓冲channel，如下：
 ```go
 	unBufferedChan := make(chan int)		//无缓冲通道
-	bufferedChan := make(chan int, 10)		//有缓冲通道
+	bufferedChan := make(chan int, 1)		//有缓冲通道
 ```
-# 用法
+
+## 有无缓冲的区别
+首先笔者刚学chan也是以为make(chan int)是跟make(chan int, 1)是一样的，这样的理解是错误的，例如给个简单的例子：
+```
+func main(){
+	c:=make(chan int)
+
+	c<-1
+	fmt.Println(<-c)
+}
+```
+这样的情况是不会打印出`1`的，并且是进入死锁状态：
+```
+fatal error: all goroutines are asleep - deadlock!
+```
+再看make(chan int, 1)：
+```go
+func main(){
+	c:=make(chan int,1)
+
+	c<-1
+	fmt.Println(<-c)
+}
+```
+结果就是打印了`1`。  
+
+那么有无缓冲的最大区别是什么，那就是一个是同步的 一个是非同步的。
+* 例如刚才第一个例子的make(chan int)，当塞一个数据进chan时，需要chan的下游接收后才会继续往下执行，否则会一直阻塞在这里，而取数据是在写入数据后才执行的，因此会进入死锁的僵局
+* 第二个例子，由于chan有容量为1的缓冲区，因此写入一个数据后可以暂存在缓冲区，可以继续往下执行，执行到fmt.Println(<-c)取出数据，因此可以正常打印数据而不是进入死锁的僵局
+
+# chan的几种异常使用
+
+## 对于关闭后的chan
+
+* 对关闭后的chan执行写入：
+```go
+func main(){
+	c:=make(chan int,1)
+	close(c)
+	c<-1
+}
+```
+导致panic
+```go
+panic: send on closed channel
+```
+
+* 对关闭后的chan执行读取：
+```go
+func main(){
+	c:=make(chan int,1)
+	close(c)
+	fmt.Println(<-c)
+}
+```
+输出0值
+```go
+0
+```
+
+# chan用法
 ## 发送数据
-先看一个简单的例子，这是个无缓冲的通道
 ```go
 package main
 
@@ -70,39 +129,6 @@ child goroutine receive :  8
 main goroutine send :  9
 child goroutine receive :  9
 ```
-很明显，当主协程发送完一个数据后，需要等待通道的下游接收，不然会处于堵塞状态   
-当我们将
-```go
-testChan := make(chan int)
-```
-改成
-```go
-testChan := make(chan int, 5)
-```
-结果是
-```
-main goroutine send :  0
-main goroutine send :  1
-main goroutine send :  2
-main goroutine send :  3
-main goroutine send :  4
-main goroutine send :  5
-child goroutine receive :  0
-main goroutine send :  6
-child goroutine receive :  1
-main goroutine send :  7
-child goroutine receive :  2
-main goroutine send :  8
-child goroutine receive :  3
-main goroutine send :  9
-child goroutine receive :  4
-child goroutine receive :  5
-child goroutine receive :  6
-child goroutine receive :  7
-child goroutine receive :  8
-child goroutine receive :  9
-```
-这时主协程不需要等待通道下游取数据后才能发送，而是通道有一定的缓冲，主协程能连续发送多个数据直到缓冲区满了
 
 ## 同步信号
 channel可以当做同步信号，当关闭一个channel时，channel所有下游都会受到一个空值，当主协程需要退出时，可以用channel通知子协程，让子协程退出
