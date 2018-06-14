@@ -66,6 +66,18 @@ func main(){
 0
 ```
 
+## 判断chan是否关闭
+类似判断key是否在map：
+```go
+func main(){
+	c:=make(chan int,1)
+	close(c)
+	v,ok:=<-c
+	fmt.Println(v,ok)
+}
+```
+当关闭chan，ok的值为false
+
 # chan用法
 ## 发送数据
 ```go
