@@ -39,11 +39,11 @@ func (mq *MessageQueue) Put(in interface{}) {
 
 	//判断缓冲区是否为满
 	mq.fullCond.L.Lock()
+	defer mq.fullCond.L.Unlock()
 	for (mq.writePos+1)%mq.len == mq.readPos {
 		//缓冲区为满，等待消费者消费的通知缓冲区有数据被取出
 		mq.fullCond.Wait()
 	}
-	mq.fullCond.L.Unlock()
 
 	//写入一个数据
 	mq.msgdata[mq.writePos] = in
@@ -63,11 +63,12 @@ func (mq *MessageQueue) Get() (out interface{}) {
 
 	//判断缓冲区是否为空
 	mq.emptyCond.L.Lock()
+	defer mq.emptyCond.L.Unlock()
+
 	for mq.writePos == mq.readPos {
 		//缓冲区为空，等待生产者通知缓冲区有数据存入
 		mq.emptyCond.Wait()
 	}
-	mq.emptyCond.L.Unlock()
 
 	//读取
 	out = mq.msgdata[(mq.readPos)%mq.len]
@@ -88,14 +89,16 @@ func NewMQ(len int32) *MessageQueue {
 		return nil
 	}
 
+	l:=&sync.Mutex{}
+
 	return &MessageQueue{
 		msgdata:  make([]interface{}, len+1),
 		len:      len + 1,
 		readPos:  0,
 		writePos: 0,
 
-		emptyCond: sync.NewCond(&sync.Mutex{}),
-		fullCond:  sync.NewCond(&sync.Mutex{}),
+		emptyCond: sync.NewCond(l),
+		fullCond:  sync.NewCond(l),
 	}
 }
 ```
